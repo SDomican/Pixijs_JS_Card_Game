@@ -6,21 +6,14 @@
   </head>
   <body>
     
-    <script>
-      class Rectangle {
-  constructor(height, width) {
-    this.height = height;
-    this.width = width;
-  }
-}
+  <script>
 
-class Deck{
+  class Deck{
   
-  constructor() {
-    this.selectedCards = [];
-  }
+    constructor() {
+      this.selectedCards = [];
+    }
 
-  
   drawCard(){
 
     while(true){
@@ -40,54 +33,423 @@ class Deck{
   resetDeck(){
     this.selectedCards = arr.splice(0, arr.length);
   }
+
+  isFlipped(cardNumber){
+    if(this.selectedCards.includes(cardNumber)){
+      return true;
+    }
+    return false;
+  }
   
 }
-      
+
+class Card{
+  constructor(xPosition, yPosition){
+    this.isFlipped = false;
+    this.sprite = PIXI.Sprite.from('assets/card_back.png');
+    this.sprite.x = xPosition;
+    this.sprite.y = yPosition;
+    //this.sprite.x = 50;
+    //this.sprite.y = 50;
+
+    this.sprite.on('pointertap', (event) => {         
+        if(this.isFlipped !== true){
+          this.texture = aceCard;
+          isFlipped01 = true;
+        }  
+      });
+
+
+    console.log(xPosition + " " + yPosition);
+  }
+}
 
       // Create the application helper and add its render target to the page
-      let app = new PIXI.Application({ width: 640, height: 360 });
+      //let app = new PIXI.Application({ width: 640, height: 360 });
+      let app = new PIXI.Application({ width: 1280, height: 720 });
       document.body.appendChild(app.view);
 
+      // create a background...
+      const background = PIXI.Sprite.from('assets/backgroundImage.png');
+      background.width = app.screen.width;
+      background.height = app.screen.height;
+
+      const cardWidth = 120;
+      const cardHeight = 160;
+      const xMultiplier = 150;
+
+      const cardXPositions = [xMultiplier*1, xMultiplier*2, xMultiplier*3, xMultiplier*4, xMultiplier*5, xMultiplier*1, xMultiplier*2, xMultiplier*3, xMultiplier*4, xMultiplier*5];
+      const cardYPositions = [100, 400];
+
+      const style = new PIXI.TextStyle({
+    fontFamily: 'Arial',
+    fontSize: 20,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    fill: ['#ffffff', '#00ff99'], // gradient
+    stroke: '#4a1850',
+    strokeThickness: 5,
+    dropShadow: true,
+    dropShadowColor: '#000000',
+    dropShadowBlur: 4,
+    dropShadowAngle: Math.PI / 6,
+    dropShadowDistance: 6,
+    wordWrap: true,
+    wordWrapWidth: 440,
+    lineJoin: 'round',
+});
+
+    const text = new PIXI.Text('Welcome to card picker!', style);
+    const scoreText = new PIXI.Text('score: 0', style);
+    text.x = 1000;
+    text.y = 50;
+    scoreText.x = 1000;
+    scoreText.y = 100;
+    scoreText.visible = false;
+
+
+
       // create textures from an image path
-      const aceCard = PIXI.Texture.from('ace.png');
+      const c1 = PIXI.Texture.from('assets/c01.png'); 
+      const c2 = PIXI.Texture.from('assets/c02.png'); 
+      const c3 = PIXI.Texture.from('assets/c03.png'); 
+      const c4 = PIXI.Texture.from('assets/c04.png'); 
+      const c5 = PIXI.Texture.from('assets/c05.png'); 
+      const c6 = PIXI.Texture.from('assets/c06.png'); 
+      const c7 = PIXI.Texture.from('assets/c07.png'); 
+      const c8 = PIXI.Texture.from('assets/c08.png'); 
+      const c9 = PIXI.Texture.from('assets/c09.png'); 
+      const c10 = PIXI.Texture.from('assets/c010.png'); 
+
+      const textureButton = PIXI.Texture.from('assets/button.png');
 
       //Create deck
       let deck = new Deck();
       let randomNum = deck.drawCard();
-      alert(randomNum);
 
-      //const rectangle = new rectangle(10,10);
+      let score = 0;
+      let cardsDrawn = 0;
+/*
+      let card01 = new Card(50,50); 
+      card01.sprite.height = 80;
+      card01.sprite.width = 60;
+*/
+      // Create the sprites and add them to the stage
+      let sprite01 = PIXI.Sprite.from('assets/card_back.png');
+      let sprite02 = PIXI.Sprite.from('assets/card_back.png');
+      let sprite03 = PIXI.Sprite.from('assets/card_back.png');
+      let sprite04 = PIXI.Sprite.from('assets/card_back.png');
+      let sprite05 = PIXI.Sprite.from('assets/card_back.png');
+      let sprite06 = PIXI.Sprite.from('assets/card_back.png');
+      let sprite07 = PIXI.Sprite.from('assets/card_back.png');
+      let sprite08 = PIXI.Sprite.from('assets/card_back.png');
+      let sprite09 = PIXI.Sprite.from('assets/card_back.png');
+      let sprite10 = PIXI.Sprite.from('assets/card_back.png');
 
-      // Create the sprite and add it to the stage
-      let sprite = PIXI.Sprite.from('card_back.png');
-      sprite.on('pointertap', (event) => { 
-        
-        alert('Hi'); 
-    
-      sprite.texture = aceCard;
+      const button = new PIXI.Sprite(textureButton);
+
+      //Booleans for if sprites have been flipped
+      let isFlipped01 = false;
+      let isFlipped02 = false;
+      let isFlipped03 = false;
+      let isFlipped04 = false;
+      let isFlipped05 = false;
+      let isFlipped06 = false;
+      let isFlipped07 = false;
+      let isFlipped08 = false;
+      let isFlipped09 = false;
+      let isFlipped10 = false;
+/*
+      card01.sprite.on('pointertap', (event) => {         
+        if(isFlipped01 !== true){
+          alert(deck.drawCard()); 
+          sprite01.texture = aceCard;
+          isFlipped01 = true;
+        }  
+      });
+*/
+      sprite01.on('pointertap', (event) => { 
+        if(isFlipped01 !== true){
+          let artString = 'c';
+          let numberDrawn = deck.drawCard();
+          artString += numberDrawn;
+          sprite01.texture = eval(artString);
+          isFlipped01 = true;
+          score += numberDrawn;
+          cardsDrawn++;
+          scoreText.text = 'Score ' + score;
+
+          if(cardsDrawn === 5){
+            button.visible = true;
+            scoreText.visible = true;
+          }
+
+        } 
+      });
+
+      sprite02.on('pointertap', (event) => { 
+        if(isFlipped02 !== true){
+          let artString = 'c';
+          let numberDrawn = deck.drawCard();
+          artString += numberDrawn;
+          sprite02.texture = eval(artString);
+          isFlipped02 = true;
+          score += numberDrawn;
+          cardsDrawn++;
+          scoreText.text = 'Score ' + score;
+
+          if(cardsDrawn === 5){
+            button.visible = true;
+            scoreText.visible = true;
+          }
+        } 
+      });
+
+      sprite03.on('pointertap', (event) => { 
+        if(isFlipped03 !== true){
+          let artString = 'c';
+          let numberDrawn = deck.drawCard();
+          artString += numberDrawn;
+          sprite03.texture = eval(artString);
+          isFlipped03 = true;
+          score += numberDrawn;
+          cardsDrawn++;
+          scoreText.text = 'Score ' + score;
+
+          if(cardsDrawn === 5){
+            button.visible = true;
+            scoreText.visible = true;
+          }
+        } 
+      });
+
+      sprite04.on('pointertap', (event) => { 
+        if(isFlipped04 !== true){
+          let artString = 'c';
+          let numberDrawn = deck.drawCard();
+          artString += numberDrawn;
+          sprite04.texture = eval(artString);
+          isFlipped04 = true;
+          score += numberDrawn;
+          cardsDrawn++;
+          scoreText.text = 'Score ' + score;
+
+          if(cardsDrawn === 5){
+            button.visible = true;
+            scoreText.visible = true;
+          }
+        } 
+      });
+
+      sprite05.on('pointertap', (event) => { 
+        if(isFlipped05 !== true){
+          let artString = 'c';
+          let numberDrawn = deck.drawCard();
+          artString += numberDrawn;
+          sprite05.texture = eval(artString);
+          isFlipped05 = true;
+          score += numberDrawn;
+          cardsDrawn++;
+          scoreText.text = 'Score ' + score;
+
+          if(cardsDrawn === 5){
+            button.visible = true;
+            scoreText.visible = true;
+          }
+        } 
+      });
+
+      sprite06.on('pointertap', (event) => { 
+        if(isFlipped06 !== true){
+          let artString = 'c';
+          let numberDrawn = deck.drawCard();
+          artString += numberDrawn;
+          sprite06.texture = eval(artString);
+          isFlipped06 = true;
+          score += numberDrawn;
+          cardsDrawn++;
+          scoreText.text = 'Score ' + score;
+
+          if(cardsDrawn === 5){
+            button.visible = true;
+            scoreText.visible = true;
+          }
+        } 
+      });
+
+      sprite07.on('pointertap', (event) => { 
+        if(isFlipped07 !== true){
+          let artString = 'c';
+          let numberDrawn = deck.drawCard();
+          artString += numberDrawn;
+          sprite07.texture = eval(artString);
+          isFlipped07 = true;
+          score += numberDrawn;
+          cardsDrawn++;
+          scoreText.text = 'Score ' + score;
+
+          if(cardsDrawn === 5){
+            button.visible = true;
+            scoreText.visible = true;
+          }
+        } 
+      });
+
+      sprite08.on('pointertap', (event) => { 
+        if(isFlipped08 !== true){
+          let artString = 'c';
+          let numberDrawn = deck.drawCard();
+          artString += numberDrawn;
+          sprite08.texture = eval(artString);
+          isFlipped08 = true;
+          score += numberDrawn;
+          cardsDrawn++;
+          scoreText.text = 'Score ' + score;
+
+          if(cardsDrawn === 5){
+            button.visible = true;
+            scoreText.visible = true;
+          }
+        } 
+      });
+
+      sprite09.on('pointertap', (event) => { 
+        if(isFlipped09 !== true){
+          let artString = 'c';
+          let numberDrawn = deck.drawCard();
+          artString += numberDrawn;
+          sprite09.texture = eval(artString);
+          isFlipped09 = true;
+          score += numberDrawn;
+          cardsDrawn++;
+          scoreText.text = 'Score ' + score;
+
+          if(cardsDrawn === 5){
+            button.visible = true;
+            scoreText.visible = true;
+          }
+        } 
+      });
+
+      sprite10.on('pointertap', (event) => { 
+        if(isFlipped10 !== true){
+          let artString = 'c';
+          let numberDrawn = deck.drawCard();
+          artString += numberDrawn;
+          sprite10.texture = eval(artString);
+          isFlipped10 = true;
+          score += numberDrawn;
+          cardsDrawn++;
+          scoreText.text = 'Score ' + score;
+
+          if(cardsDrawn === 5){
+            button.visible = true;
+            scoreText.visible = true;
+          }
+        } 
       });
 
       // Opt-in to interactivity
-      sprite.interactive = true;
+      sprite01.interactive = true;
+      sprite02.interactive = true;
+      sprite03.interactive = true;
+      sprite04.interactive = true;
+      sprite05.interactive = true;
+      sprite06.interactive = true;
+      sprite07.interactive = true;
+      sprite08.interactive = true;
+      sprite09.interactive = true;
+      sprite10.interactive = true;
+          
+      // make the button interactive...
+      button.interactive = true;
+      button.buttonMode = true;
+
+      for (let i = 1; i < 11; i++) {
       
-      //Change spite's size
-      sprite.width = 60;
-      sprite.height = 80;
+        let spriteToChangeSize = 'sprite0' +  i;
 
-      //change sprite's position
-      sprite.x = 50;
-      sprite.y = 50;
+        if(i === 10){spriteToChangeSize = 'sprite10';}
 
-      app.stage.addChild(sprite);
+        eval(spriteToChangeSize).width = cardWidth;
+        eval(spriteToChangeSize).height = cardHeight;
 
+        eval(spriteToChangeSize).x = cardXPositions[i-1];
+        
+        if(i <= 5){
+          eval(spriteToChangeSize).y = cardYPositions[0];
+        }
+        else {
+          eval(spriteToChangeSize).y = cardYPositions[1];
+        }
+        
+      }
+
+      button.height = 90;
+      button.width = 150;
+
+      
       /*
-      // Add a ticker callback to move the sprite back and forth
-      let elapsed = 0.0;
-      app.ticker.add((delta) => {
-        elapsed += delta;
-        sprite.x = 100.0 + Math.cos(elapsed/50.0) * 100.0;
-      });
+      //change sprites' positions
+      sprite01.x = 50;
+      sprite01.y = 50;
+
+      sprite02.x = 125;
+      sprite02.y = 50;
+
+      sprite03.x = 200;
+      sprite03.y = 50;
+
+      sprite04.x = 275;
+      sprite04.y = 50;
+
+      sprite05.x = 350;
+      sprite05.y = 50;
+
+      sprite06.x = 50;
+      sprite06.y = 200;
+
+      sprite07.x = 125;
+      sprite07.y = 200;
+
+      sprite08.x = 200;
+      sprite08.y = 200;
+
+      sprite09.x = 275;
+      sprite09.y = 200;
+
+      sprite10.x = 350;
+      sprite10.y = 200;
+
       */
+
+      button.anchor.set(0.5);
+      button.x = 1100;
+      button.y = 200;
+      button.visible = false;
+
+
+      //app.stage.addChild(card01.sprite);
+
+      app.stage.addChild(background);
+
+      app.stage.addChild(sprite01);
+      app.stage.addChild(sprite02);
+      app.stage.addChild(sprite03);
+      app.stage.addChild(sprite04);
+      app.stage.addChild(sprite05);
+      app.stage.addChild(sprite06);
+      app.stage.addChild(sprite07);
+      app.stage.addChild(sprite08);
+      app.stage.addChild(sprite09);
+      app.stage.addChild(sprite10);
+
+      app.stage.addChild(text);
+      app.stage.addChild(scoreText);
+
+      app.stage.addChild(button);
+      
+
     </script>
   </body>
 </html>
